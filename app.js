@@ -85,7 +85,7 @@ letterButtons.forEach((buttonElement) => {
     }
 
     if (document.querySelectorAll(".correct").length === wordToGuess.length) {
-      document.querySelector(".game-screen").style.zIndex = 100;
+      document.querySelector(".end-screen").style.zIndex = 100;
       document.querySelector(".game-result").innerHTML = "You Win!!";
     }
   });
