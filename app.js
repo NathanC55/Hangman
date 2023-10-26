@@ -2,6 +2,7 @@ import { words, randomWordGenerator } from "./words.js";
 const buttonsContainer = document.querySelector(".buttons-container");
 const guessContainer = document.querySelector(".word-container");
 const strikeImege = document.querySelector(".strike-imege");
+const restartButton = document.querySelector(".restart-button");
 //generate random word
 const wordToGuess = randomWordGenerator();
 //with an array of alphabet, map over and generate buttons for each letter
@@ -81,12 +82,16 @@ letterButtons.forEach((buttonElement) => {
     }
     if (strikeCount === 6) {
       document.querySelector(".end-screen").style.zIndex = 100;
-      document.querySelector(".game-result").innerHTML = "You Lose";
+      document.querySelector(".game-result").innerHTML = `<div>You Lose</div>
+      <div>Your word was: ${wordToGuess}</div>
+      <button onClick="window.location.reload()" class="letter-button restart-button">Restart</button>`;
     }
 
     if (document.querySelectorAll(".correct").length === wordToGuess.length) {
       document.querySelector(".end-screen").style.zIndex = 100;
-      document.querySelector(".game-result").innerHTML = "You Win!!";
+      document.querySelector(".game-result").innerHTML = `<div>You Win</div>
+      
+      <button onClick="window.location.reload()" class=" letter-button restart-button">Restart</button>`;
     }
   });
 });
