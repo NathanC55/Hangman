@@ -1,100 +1,66 @@
 import { words, randomWordGenerator } from "./words.js";
+
 const buttonsContainer = document.querySelector(".buttons-container");
 const guessContainer = document.querySelector(".word-container");
 const strikeImage = document.querySelector(".strike-image");
 const restartButton = document.querySelector(".restart-button");
-//generate random word
 const wordToGuess = randomWordGenerator();
-//with an array of alphabet, map over and generate buttons for each letter
-const alphabet = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
-
-let lettersPressed = [];
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+const lettersPressed = new Set();
 let strikeCount = 0;
-
-//map over generated word.length and return an underscore for each one
 
 Array.from(wordToGuess).forEach((letter) => {
   const span = document.createElement("span");
   span.textContent = "_";
-  span.classList.add("display-letter");
-
-  span.classList.add(letter);
+  span.classList.add("display-letter", letter);
   guessContainer.appendChild(span);
 });
 
-alphabet.forEach(function (letter) {
-  buttonsContainer.innerHTML += `<button class='letter-button'>${letter.toUpperCase()}</button>`;
+alphabet.forEach((letter) => {
+  buttonsContainer.innerHTML += `<button class='letter-button'>${letter}</button>`;
 });
 
 const letterButtons = document.querySelectorAll(".letter-button");
 
-//based on array of pressed buttons, going to disable buttons
 letterButtons.forEach((buttonElement) => {
   buttonElement.addEventListener("click", (event) => {
     const button = event.target.textContent;
-    //disables button and stores it in array
-    if (!lettersPressed.includes(button)) {
-      lettersPressed.push(button);
+
+    if (!lettersPressed.has(button)) {
+      lettersPressed.add(button);
       buttonElement.disabled = true;
     }
-    //if clicked button is in generated word, display letter
-    Array.from(wordToGuess).forEach((letter) => {
+
+    Array.from(wordToGuess).forEach((letter, index) => {
       if (button.toLowerCase() === letter.toLowerCase()) {
-        const emptySpan = document.querySelector(`.${button.toLowerCase()}`);
+        const emptySpan = guessContainer.querySelector(`.${letter}`);
         emptySpan.textContent = button;
-        emptySpan.classList.remove(button.toLowerCase());
+        emptySpan.classList.remove(letter);
         emptySpan.classList.add("correct");
       }
     });
 
-    //display a stike for each missed letter
     if (!wordToGuess.toLowerCase().includes(button.toLowerCase())) {
       strikeCount++;
       strikeImage.src = `images/hangmanStrike${strikeCount}.png`;
     }
-    if (strikeCount === 6) {
+
+    if (
+      strikeCount === 6 ||
+      document.querySelectorAll(".correct").length === wordToGuess.length
+    ) {
       document.querySelector(".end-screen").style.visibility = "visible";
       document.querySelector(
         ".game-result"
-      ).innerHTML = `<div class = 'end-info'>Failure!</div>
-      <div class = 'end-info'>Your word was: ${wordToGuess.toUpperCase()}</div>
+      ).innerHTML = `<div class="end-info">${
+        strikeCount === 6 ? "Failure" : "Success"
+      }!</div>
+      ${
+        strikeCount === 6
+          ? `<div class="end-info">Your word was: ${wordToGuess.toUpperCase()}</div>`
+          : ""
+      }
       <button onClick="window.location.reload()" class="letter-button restart-button">Restart</button>`;
-    }
-
-    if (document.querySelectorAll(".correct").length === wordToGuess.length) {
-      document.querySelector(".end-screen").style.visibility = "visible";
-      document.querySelector(".game-result").innerHTML = `<div>Success!</div>
-      
-      <button onClick="window.location.reload()" class=" letter-button restart-button">Restart</button>`;
     }
   });
 });
-
-// reduce function over pressed buttons array, using .some to see if letter is contained in random word
