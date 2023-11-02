@@ -55,23 +55,22 @@ alphabet.forEach(function (letter) {
 
 const letterButtons = document.querySelectorAll(".letter-button");
 
-//store pressed buttons in a state variable that is an array
 //based on array of pressed buttons, going to disable buttons
 letterButtons.forEach((buttonElement) => {
   buttonElement.addEventListener("click", (event) => {
     const button = event.target.textContent;
-
+    //disables button and stores it in array
     if (!lettersPressed.includes(button)) {
       lettersPressed.push(button);
       buttonElement.disabled = true;
     }
-    //if letter exist in pressed button array, display actual letter
+    //if clicked button is in generated word, display letter
     Array.from(wordToGuess).forEach((letter) => {
       if (button.toLowerCase() === letter.toLowerCase()) {
-        const span = document.querySelector(`.${button.toLowerCase()}`);
-        span.textContent = button;
-        span.classList.remove(button.toLowerCase());
-        span.classList.add("correct");
+        const emptySpan = document.querySelector(`.${button.toLowerCase()}`);
+        emptySpan.textContent = button;
+        emptySpan.classList.remove(button.toLowerCase());
+        emptySpan.classList.add("correct");
       }
     });
 
@@ -84,14 +83,14 @@ letterButtons.forEach((buttonElement) => {
       document.querySelector(".end-screen").style.visibility = "visible";
       document.querySelector(
         ".game-result"
-      ).innerHTML = `<div class = 'end-info'>You Lose</div>
+      ).innerHTML = `<div class = 'end-info'>Failure!</div>
       <div class = 'end-info'>Your word was: ${wordToGuess.toUpperCase()}</div>
       <button onClick="window.location.reload()" class="letter-button restart-button">Restart</button>`;
     }
 
     if (document.querySelectorAll(".correct").length === wordToGuess.length) {
       document.querySelector(".end-screen").style.visibility = "visible";
-      document.querySelector(".game-result").innerHTML = `<div>You Win</div>
+      document.querySelector(".game-result").innerHTML = `<div>Success!</div>
       
       <button onClick="window.location.reload()" class=" letter-button restart-button">Restart</button>`;
     }
