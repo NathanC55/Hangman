@@ -78,7 +78,7 @@ letterButtons.forEach((buttonElement) => {
     //display a stike for each missed letter
     if (!wordToGuess.toLowerCase().includes(button.toLowerCase())) {
       strikeCount++;
-      strikeImage.src = `images/hangmanStrike${strikeCount}.jpg`;
+      strikeImage.src = `images/hangmanStrike${strikeCount}.png`;
     }
     if (strikeCount === 6) {
       document.querySelector(".end-screen").style.visibility = "visible";
