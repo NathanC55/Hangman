@@ -1,7 +1,7 @@
 import { words, randomWordGenerator } from "./words.js";
 const buttonsContainer = document.querySelector(".buttons-container");
 const guessContainer = document.querySelector(".word-container");
-const strikeImege = document.querySelector(".strike-imege");
+const strikeImage = document.querySelector(".strike-image");
 const restartButton = document.querySelector(".restart-button");
 //generate random word
 const wordToGuess = randomWordGenerator();
@@ -78,17 +78,19 @@ letterButtons.forEach((buttonElement) => {
     //display a stike for each missed letter
     if (!wordToGuess.toLowerCase().includes(button.toLowerCase())) {
       strikeCount++;
-      strikeImege.src = `imges/hangmanStrike${strikeCount}.jpg`;
+      strikeImage.src = `images/hangmanStrike${strikeCount}.jpg`;
     }
     if (strikeCount === 6) {
-      document.querySelector(".end-screen").style.zIndex = 100;
-      document.querySelector(".game-result").innerHTML = `<div>You Lose</div>
-      <div>Your word was: ${wordToGuess}</div>
+      document.querySelector(".end-screen").style.visibility = "visible";
+      document.querySelector(
+        ".game-result"
+      ).innerHTML = `<div class = 'end-info'>You Lose</div>
+      <div class = 'end-info'>Your word was: ${wordToGuess.toUpperCase()}</div>
       <button onClick="window.location.reload()" class="letter-button restart-button">Restart</button>`;
     }
 
     if (document.querySelectorAll(".correct").length === wordToGuess.length) {
-      document.querySelector(".end-screen").style.zIndex = 100;
+      document.querySelector(".end-screen").style.visibility = "visible";
       document.querySelector(".game-result").innerHTML = `<div>You Win</div>
       
       <button onClick="window.location.reload()" class=" letter-button restart-button">Restart</button>`;
