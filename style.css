@@ -71,16 +71,16 @@ body {
 }
 
 .display-letter {
-  font-size: 24px;
-  width: 30px;
-  height: 30px;
+  font-size: 30px;
+  width: 65px;
+  height: 65px;
   background-color: #fff;
   border: 2px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 5px;
-  border-radius: 5px;
+  border-radius: 12px;
   font-weight: bold;
 }
 
