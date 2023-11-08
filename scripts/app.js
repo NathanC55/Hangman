@@ -1,4 +1,4 @@
-import { words, randomWordGenerator } from "./words.js";
+import { randomWordGenerator } from "./words.js";
 
 const buttonsContainer = document.querySelector(".buttons-container");
 const guessContainer = document.querySelector(".word-container");
@@ -42,25 +42,28 @@ letterButtons.forEach((buttonElement) => {
 
     if (!wordToGuess.toLowerCase().includes(button.toLowerCase())) {
       strikeCount++;
-      strikeImage.src = `images/hangmanStrike${strikeCount}.png`;
+      strikeImage.src = `/images/hangmanStrike${strikeCount}.png`;
     }
 
-    if (
-      strikeCount === 6 ||
-      document.querySelectorAll(".correct").length === wordToGuess.length
-    ) {
+    const endScreen = () => {
       document.querySelector(".end-screen").style.visibility = "visible";
       document.querySelector(
         ".game-result"
       ).innerHTML = `<div class="end-info">${
         strikeCount === 6 ? "Failure" : "Success"
       }!</div>
-      ${
-        strikeCount === 6
-          ? `<div class="end-info">Your word was: ${wordToGuess.toUpperCase()}</div>`
-          : ""
-      }
-      <button onClick="window.location.reload()" class="letter-button restart-button">Restart</button>`;
+    ${
+      strikeCount === 6
+        ? `<div class="end-info">Your word was: ${wordToGuess.toUpperCase()}</div>`
+        : ""
+    }
+    <button onClick="window.location.reload()" class="letter-button restart-button">Restart</button>`;
+    };
+
+    const correct = document.querySelectorAll(".correct").length;
+
+    if (strikeCount === 6 || correct === wordToGuess.length) {
+      endScreen();
     }
   });
 });
