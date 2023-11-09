@@ -8,11 +8,22 @@ const wordToGuess = randomWordGenerator();
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const lettersPressed = new Set();
 let strikeCount = 0;
-
+console.log(wordToGuess);
 Array.from(wordToGuess).forEach((letter) => {
   const span = document.createElement("span");
-  span.textContent = "_";
-  span.classList.add("display-letter", letter);
+  if (letter === ".") {
+    span.textContent = ".";
+    span.classList.add("correct");
+    span.classList.add("dot");
+  }
+  if (letter === " ") {
+    span.classList.add("space");
+    span.classList.add("correct");
+  }
+  if (letter !== "." && letter !== " ") {
+    span.classList.add("display-letter", letter);
+    span.textContent = "_";
+  }
   guessContainer.appendChild(span);
 });
 
